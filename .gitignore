@@ -1,3 +1,6 @@
+override.tf
 coreos.pem
 coreos-key.pem
 certs/*.json
+terraform.tfstate
+terraform.tfstate.backup
