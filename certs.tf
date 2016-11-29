@@ -10,6 +10,7 @@ data "template_file" "fathm-ci-cert-requests" {
 
 resource "null_resource" "configure-coreos-certs" {
     count = "${var.ci_servers_count}"
+    depends_on = ["digitalocean_droplet.fathm-ci"]
 
     connection {
         host = "${element(digitalocean_droplet.fathm-ci.*.ipv4_address_private, count.index)}"
@@ -24,10 +25,7 @@ resource "null_resource" "configure-coreos-certs" {
     }
 
     provisioner "local-exec" {
-      inline = [
-          "${format("cfssl gencert -ca=ca.pem -ca-key=ca-key.pem -config=ca-config.json -profile=client-server certs/%s.json | cfssljson -bare coreos", element(digitalocean_droplet.fathm-ci.*.name, count.index))}",
-          "chmod 644 coreos-key.pem"
-      ]
+      command = "${format("cfssl gencert -ca=ca.pem -ca-key=ca-key.pem -config=ca-config.json -profile=client-server certs/%s.json | cfssljson -bare coreos && chmod 644 coreos-key.pem", element(digitalocean_droplet.fathm-ci.*.name, count.index))}",
     }
 
     provisioner "file" {
