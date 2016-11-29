@@ -1,0 +1,3 @@
+coreos.pem
+coreos-key.pem
+certs/*.json
