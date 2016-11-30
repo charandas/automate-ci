@@ -20,20 +20,20 @@ resource "null_resource" "configure-coreos-certs" {
 
     provisioner "local-exec" {
       command = <<EOF
-echo ${jsonencode(element(data.template_file.fathm-ci-cert-requests.*.rendered, count.index))} > ${var.certs_path}/coreos-${count.index}.json &&
-cfssl gencert -ca=${var.certs_path}/ca.pem -ca-key=${var.certs_path}/ca-key.pem -config=${var.certs_path}/ca-config.json -profile=client-server ${var.certs_path}/coreos-${count.index}.json |
-cfssljson -bare ${var.certs_path}/coreos-${count.index} &&
-chmod 644 ${var.certs_path}/coreos-${count.index}-key.pem
+echo ${jsonencode(element(data.template_file.fathm-ci-cert-requests.*.rendered, count.index))} > tmp/${var.certs_path}/coreos-${count.index}.json &&
+cfssl gencert -ca=${var.certs_path}/ca.pem -ca-key=${var.certs_path}/ca-key.pem -config=${var.certs_path}/ca-config.json -profile=client-server tmp/${var.certs_path}/coreos-${count.index}.json |
+cfssljson -bare tmp/${var.certs_path}/coreos-${count.index} &&
+chmod 644 tmp/${var.certs_path}/coreos-${count.index}-key.pem
 EOF
     }
 
     provisioner "file" {
-      source = "${var.certs_path}/coreos-${count.index}.pem"
+      source = "tmp/${var.certs_path}/coreos-${count.index}.pem"
       destination = "/home/core/coreos.pem"
     }
 
     provisioner "file" {
-      source = "${var.certs_path}/coreos-${count.index}-key.pem"
+      source = "tmp/${var.certs_path}/coreos-${count.index}-key.pem"
       destination = "/home/core/coreos-key.pem"
     }
 

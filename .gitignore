@@ -1,7 +1,4 @@
 override.tf
-coreos.pem
-coreos-key.pem
-certs/coreos-*
-terraform.tfstate
+tmp
 terraform.tfstate.backup
 terraform.tfplan

@@ -19,11 +19,6 @@ coreos:
       enable: true
       command: start
     - name: flanneld.service
-      drop-ins:
-        - name: 50-network-config.conf
-          content: |
-            [Service]
-            ExecStartPre=/usr/bin/etcdctl set /coreos.com/network/config '{ "Network": "10.1.0.0/16" }'
       command: start
 write_files:
   - path: /run/systemd/system/etcd2.service.d/30-certificates.conf

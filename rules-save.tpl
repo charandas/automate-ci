@@ -8,9 +8,12 @@
 
 # Accept all traffic on the local network from other members of
 # our CoreOS cluster:
+-A INPUT -i eth1 -p tcp -s ${coreos_host_private_ip_0} -j ACCEPT
 -A INPUT -i eth1 -p tcp -s ${coreos_host_private_ip_1} -j ACCEPT
 -A INPUT -i eth1 -p tcp -s ${coreos_host_private_ip_2} -j ACCEPT
--A INPUT -i eth1 -p tcp -s ${coreos_host_private_ip_3} -j ACCEPT
+-A INPUT -i eth1 -p udp -s ${coreos_host_private_ip_0} -j ACCEPT
+-A INPUT -i eth1 -p udp -s ${coreos_host_private_ip_1} -j ACCEPT
+-A INPUT -i eth1 -p udp -s ${coreos_host_private_ip_2} -j ACCEPT
 
 # Keep existing connections (like our SSH session) alive:
 -A INPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
