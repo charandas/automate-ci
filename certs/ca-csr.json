@@ -1,0 +1,20 @@
+{
+    "CN": "humanflow.io",
+    "hosts": [
+        "example.net",
+        "www.example.net"
+    ],
+    "key": {
+        "algo": "rsa",
+        "size": 2048
+    },
+    "names": [
+        {
+            "C": "US",
+            "L": "S Portland",
+            "O": "Fathm",
+            "ST": "ME",
+            "OU": "Chappie Ops"
+        }
+    ]
+}
